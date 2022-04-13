@@ -1,0 +1,8 @@
+name: DellunaCD
+version: ${project.version}
+main: me.lewin.dellunacd.Main
+api-version: 1.18
+commands:
+  dellunacd:
+    aliases:
+      - 델루나음반
