@@ -14,6 +14,7 @@ public class Command implements CommandExecutor {
 
         switch (args[0]) {
             case "gui":
+
                 break;
             case "set":
                 onCommandSet(sender, args);
@@ -27,12 +28,10 @@ public class Command implements CommandExecutor {
         if (args.length != 2) return;
         if (!sender.isOp()) return;
 
-        sender.sendMessage("1");
-
         ItemStack item = ((Player) sender).getItemInHand();
         if (item == null || !item.getType().equals(Material.MUSIC_DISC_CAT)) return;
 
-        if (Bukkit.getOfflinePlayer(args[1]).isWhitelisted()) return;
+        if (!Bukkit.getOfflinePlayer(args[1]).isWhitelisted()) return;
         String uuid = Bukkit.getOfflinePlayer(args[1]).getUniqueId().toString();
 
         String name = item.getItemMeta().getLore().get(2).split(": ")[1];
