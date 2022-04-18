@@ -1,5 +1,6 @@
-package me.lewin.dellunacd;
+package dellunacd.me.tori.dellunacd.Me.tori;
 
+import gui.CdGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
@@ -7,20 +8,43 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+
 public class Command implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) return false;
+        Player player = (Player) sender;
+        if (sender == null) return true;
 
         switch (args[0]) {
             case "gui":
-
+                if (args.length != 1) {
+                    sender.sendMessage("[!] 잘못된 입력입니다.");
+                    return false ;
+                }
+                player.openInventory(new CdGUI().getInventory(player , 1));
                 break;
+
             case "set":
                 onCommandSet(sender, args);
                 break;
+
+            case "trade" :
+                if (!sender.isOp()) {
+                    sender.sendMessage("[!] 잘못된 입력입니다.");
+                    return false ;
+                }
+                if (args.length != 1) {
+                    sender.sendMessage("[!] 잘못된 입력입니다.");
+                    return false ;
+                }
+                if (!sender.isOp())
+                DataBase.setTrade(((Player) sender).getItemInHand());
+                sender.sendMessage("[!] 교환 재료 설정 완료.");
+                break;
+
         }
         return false;
+
     }
 
     // /dellunacd set Lewin22

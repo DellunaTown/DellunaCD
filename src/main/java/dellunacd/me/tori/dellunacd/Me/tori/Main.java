@@ -1,5 +1,7 @@
-package me.lewin.dellunacd;
+package dellunacd.me.tori.dellunacd.Me.tori;
 
+import gui.CdGUI;
+import gui.TradeGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,5 +17,7 @@ public final class Main extends JavaPlugin {
         }
 
         Bukkit.getPluginCommand("dellunacd").setExecutor(new Command());
+        Bukkit.getPluginManager().registerEvents(new CdGUI(), this );
+        Bukkit.getPluginManager().registerEvents(new TradeGUI(), this );
     }
 }

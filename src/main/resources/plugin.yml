@@ -1,6 +1,6 @@
 name: DellunaCD
-version: ${project.version}
-main: me.lewin.dellunacd.Main
+version: '${project.version}'
+main: dellunacd.me.tori.dellunacd.Me.tori.Main
 api-version: 1.18
 commands:
   dellunacd:
