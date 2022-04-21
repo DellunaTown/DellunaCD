@@ -4,6 +4,7 @@ import dellunacd.me.tori.dellunacd.Me.tori.DataBase;
 import dellunacd.me.tori.dellunacd.Me.tori.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -16,12 +17,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.List;
 
 public class CdGUI implements Listener {
 
 
-    public Inventory getInventory(Player player , Integer page ) {
+    public Inventory getInventory(OfflinePlayer player , Integer page ) {
         Inventory inv = Bukkit.getServer().createInventory(null, 27, "§x§0§0§b§3§b§6" + player.getName() + "§x§0§0§b§3§b§6의 음반리스트");
         Plugin plugin = JavaPlugin.getPlugin(Main.class);
 

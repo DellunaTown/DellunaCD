@@ -28,13 +28,8 @@ public class TradeGUI implements Listener {
                 continue;
             }
             inv.setItem(i, nullicon());
-
         }
         inv.setItem(4, item);
-
-
-
-
 
         return inv ;
     }
@@ -58,6 +53,7 @@ public class TradeGUI implements Listener {
 
             switch (event.getSlot()) {
                 case 11:
+                case 15:
                     return;
 
                 case 13:
@@ -65,16 +61,12 @@ public class TradeGUI implements Listener {
 
                     FileConfiguration config = YamlConfiguration.loadConfiguration(new File(JavaPlugin.getPlugin(Main.class).getDataFolder(),"setting.dat"));
                     ItemStack item = (ItemStack) config.get("item");
-                    if ( event.getClickedInventory().getItem(11).equals(item)) {
-                        event.getClickedInventory().clear(11);
-
+                    if ( event.getClickedInventory().getItem(11).equals(item)) { //여기고치기
+                        event.getClickedInventory().clear(11 ); //여기 고치기
                         event.getClickedInventory().setItem(15 , event.getClickedInventory().getItem(4));
                     }
 
                     break;
-
-                case 15:
-                    return;
             }
             event.setCancelled(true);
         }
