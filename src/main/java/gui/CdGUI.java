@@ -121,8 +121,8 @@ public class CdGUI implements Listener {
                     if ( event.getCurrentItem().getItemMeta().getCustomModelData() == 1034) {
                         player.openInventory((Inventory) new CdGUI().getInventory(player, --page ));
                     }
-
                     break;
+
                 case 22:
                     player.closeInventory();
                     break;
