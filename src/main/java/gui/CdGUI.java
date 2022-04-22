@@ -26,6 +26,7 @@ public class CdGUI implements Listener {
         Plugin plugin = JavaPlugin.getPlugin(Main.class);
 
 
+
         File[] list = new File(plugin.getDataFolder() + "\\" + player.getUniqueId().toString() ).listFiles() ;
         int count = 0;
         int index = 2;
@@ -42,8 +43,6 @@ public class CdGUI implements Listener {
             if ( index == 7 ) {
                 index = 11 ;
             }
-
-
         }
 
         if ( page == 1 ) {
@@ -66,6 +65,20 @@ public class CdGUI implements Listener {
 
         inv.setItem(26 , pageicon(page));
 
+        inv.setItem(0 , nullicon());
+        inv.setItem(1 , nullicon());
+        inv.setItem(7 , nullicon());
+        inv.setItem(8 , nullicon());
+        inv.setItem(9 , nullicon());
+        inv.setItem(10 , nullicon());
+        inv.setItem(16 , nullicon());
+        inv.setItem(17 , nullicon());
+        inv.setItem(18 , nullicon());
+        inv.setItem(19 , nullicon());
+        inv.setItem(20 , nullicon());
+        inv.setItem(24 , nullicon());
+        inv.setItem(25 , nullicon());
+
         return inv;
     }
 
@@ -87,17 +100,20 @@ public class CdGUI implements Listener {
     private ItemStack pageicon(Integer page) {
         return Icon.set(Material.BONE, page.toString() , 1023 );
     }
+    private ItemStack nullicon() {
+        return Icon.set(Material.BONE, " ", 1023 );
+    }
 
     @EventHandler
     private void onClick(InventoryClickEvent event) {
         if (event.getView().getTitle().contains("§x§0§0§b§3§b§6의 음반리스트")) {
             if ( event.getClickedInventory() == null || event.getClickedInventory().equals(event.getView().getBottomInventory())) {
-                return ; //
+                event.setCancelled(true);
             }
-            event.setCancelled(true);
 
             Player player = (Player) event.getWhoClicked();
             Integer page = Integer.parseInt(event.getClickedInventory().getItem(26).getItemMeta().getDisplayName());
+
 
 
             switch (event.getSlot()) {

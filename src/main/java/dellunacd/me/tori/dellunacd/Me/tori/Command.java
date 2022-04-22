@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 
 
 public class Command implements CommandExecutor {
@@ -25,7 +26,12 @@ public class Command implements CommandExecutor {
                     sender.sendMessage("[!] 잘못된 입력입니다.");
                     return false;
                 }
+                if (new File(plugin.getDataFolder() + "\\" + player.getUniqueId().toString() ).listFiles() == null ) {
+                    sender.sendMessage("[!] 제작한 음반이 없습니다.");
+                    return false;
+                }
                 player.openInventory(new CdGUI().getInventory(player, 1));
+                //제작한 음반이 없으면 빈 화면 또는 " 제작한 음반이 없습니다 "메세지 출력
                 break;
 
             case "set": // /dellunacd set <name> 유저파일에 음반추가 , 오른손에 음반을 들고 명령어 실행.
@@ -49,6 +55,10 @@ public class Command implements CommandExecutor {
             case "open": // /dellunacd open <name> , 오피전용 유저 음반 리스트 보기
                 if (!sender.isOp() || args.length != 2) {
                     sender.sendMessage("[!] 잘못된 입력입니다.");
+                    return false;
+                }
+                if (new File(plugin.getDataFolder() + "\\" + player.getUniqueId().toString() ).listFiles() == null ) {
+                    sender.sendMessage("[!] 해당 플레이어가 제작한 음반이 없습니다.");
                     return false;
                 }
                 if (sender.isOp()) {
