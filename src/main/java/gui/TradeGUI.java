@@ -19,7 +19,7 @@ import java.io.File;
 
 public class TradeGUI implements Listener {
     public Inventory getInventory(Player player, ItemStack item) {
-        Inventory inv = Bukkit.getServer().createInventory(null, 27, "§x§0§0§b§3§b§6" + player.getName() + "§x§0§0§b§3§b§6의 음반교환");
+        Inventory inv = Bukkit.getServer().createInventory(null, 27, "§f\uF808ꢳ");
         Plugin plugin = JavaPlugin.getPlugin(Main.class);
 
         inv.setItem(13, icontrade());
@@ -36,7 +36,7 @@ public class TradeGUI implements Listener {
 
 
     private ItemStack icontrade() {
-        return Icon.set(Material.ARROW, "§7[ §6§l교환 §7]");
+        return Icon.set(Material.BONE, "§7[ §6§l교환 §7]",1023);
     }
 
     private ItemStack nullicon() {
@@ -46,7 +46,7 @@ public class TradeGUI implements Listener {
 
     @EventHandler
     private void onClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().contains("§x§0§0§b§3§b§6의 음반교환")) {
+        if (event.getView().getTitle().contains("§f\uF808ꢳ")) {
             if (event.getClickedInventory() == null || event.getClickedInventory().equals(event.getView().getBottomInventory())) {
                 return; //
             }
@@ -89,7 +89,7 @@ public class TradeGUI implements Listener {
     //아이템 증발 방지
     @EventHandler
     private void onClose(InventoryCloseEvent event) {
-        if (event.getView().getTitle().contains("§x§0§0§b§3§b§6의 음반교환")) {
+        if (event.getView().getTitle().contains("§f\uF808ꢳ")) {
 
             if (event.getInventory().getItem(11) != null) {
                 event.getPlayer().getInventory().addItem(event.getInventory().getItem(11));
