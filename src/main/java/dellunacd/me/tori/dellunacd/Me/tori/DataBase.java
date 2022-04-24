@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class DataBase {
     public static void createCD(ItemStack item, String player, String name) {
@@ -18,10 +17,12 @@ public class DataBase {
 
         saveDataFile(config, getFile(player, name));
     }
+
     public static void removeCD(String player, String name) {
         File file = getFile(player, name);
         file.delete();
     }
+
     public static Integer getCDCount (String uuid) {
         Plugin plugin = JavaPlugin.getPlugin(Main.class);
         File[] list = new File(plugin.getDataFolder() + "\\" + uuid ).listFiles() ;
@@ -31,11 +32,10 @@ public class DataBase {
     public static void setTrade(ItemStack item) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(JavaPlugin.getPlugin(Main.class).getDataFolder(), "setting.dat"));
 
-
         config.set("item" , item);
-
         saveDataFile(config, new File(JavaPlugin.getPlugin(Main.class).getDataFolder(), "setting.dat"));
     }
+
 
 
 

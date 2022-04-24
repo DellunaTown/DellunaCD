@@ -22,6 +22,7 @@ public class Command implements CommandExecutor {
 
         switch (args[0]) {
             case "gui": // /dellunacd gui 일반 유저와 오피 둘 다 사용가능한 명령어. 현재 본인의 음반리스트GUI 보이기.
+            case "열기":
                 if (args.length != 1) {
                     sender.sendMessage("§c[!] 잘못된 입력입니다.");
                     return false;
@@ -43,9 +44,9 @@ public class Command implements CommandExecutor {
                     sender.sendMessage("§c[!] 잘못된 입력입니다.");
                     return false;
                 }
-                if (!sender.isOp())
-                    DataBase.setTrade(((Player) sender).getItemInHand());
-                sender.sendMessage("§6[!] 교환 재료 설정 완료.");
+                DataBase.setTrade(((Player) sender).getItemInHand());
+                sender.sendMessage("§a[!] 교환 재료 설정 완료.");
+
                 break;
 
             case "open": // /dellunacd open <name> , 오피전용 유저 음반 리스트 보기
@@ -82,7 +83,7 @@ public class Command implements CommandExecutor {
         String name = item.getItemMeta().getLore().get(2).split(": ")[1];
 
         DataBase.createCD(item, uuid, name);
-        sender.sendMessage("§6[!] cd가 추가되었습니다.");
+        sender.sendMessage("§a[!] cd가 추가되었습니다.");
 
         return;
     }

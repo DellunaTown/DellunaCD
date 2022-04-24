@@ -1,10 +1,8 @@
 package gui;
 
-import dellunacd.me.tori.dellunacd.Me.tori.DataBase;
 import dellunacd.me.tori.dellunacd.Me.tori.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -14,12 +12,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.Objects;
 
 public class TradeGUI implements Listener {
     public Inventory getInventory(Player player, ItemStack item) {
@@ -66,31 +62,41 @@ public class TradeGUI implements Listener {
 
                     FileConfiguration config = YamlConfiguration.loadConfiguration(new File(JavaPlugin.getPlugin(Main.class).getDataFolder(), "setting.dat"));
                     ItemStack item = (ItemStack) config.get("item");
+
                     if (isInventoryFull(player)) {
                         player.sendMessage("§c[!] 인벤토리를 2칸 이상 비워주세요");
                         break;
                     }
-                    if (Objects.requireNonNull(event.getClickedInventory().getItem(11)).isSimilar(item)) {
-                        event.getClickedInventory().clear(11);
-                        event.getClickedInventory().setItem(15, event.getClickedInventory().getItem(4));
 
+                    if (event.getClickedInventory().getItem(11).getType().equals(item.getType())) {
+                        if (event.getClickedInventory().getItem(11).getAmount() >= item.getAmount()) {
+                            ItemStack item2 = event.getClickedInventory().getItem(11);
+                            item2.setAmount(event.getClickedInventory().getItem(11).getAmount()-item.getAmount());
+
+                            event.getClickedInventory().setItem(11 , item2 );
+                            if (event.getClickedInventory().getItem(15) != null ) {
+                                event.getWhoClicked().getInventory().addItem(event.getClickedInventory().getItem(15));
+                                event.getClickedInventory().clear(15);
+                            }
+                            event.getClickedInventory().setItem(15, event.getClickedInventory().getItem(4));
+                        }
                     }
-
-
             }
             event.setCancelled(true);
-
         }
     }
 
     //아이템 증발 방지
     @EventHandler
     private void onClose(InventoryCloseEvent event) {
-        if (event.getInventory().getItem(11) != null) {
-            event.getPlayer().getInventory().addItem(event.getInventory().getItem(11));
-        }
-        if (event.getInventory().getItem(15) != null) {
-            event.getPlayer().getInventory().addItem(event.getInventory().getItem(15));
+        if (event.getView().getTitle().contains("§x§0§0§b§3§b§6의 음반교환")) {
+
+            if (event.getInventory().getItem(11) != null) {
+                event.getPlayer().getInventory().addItem(event.getInventory().getItem(11));
+            }
+            if (event.getInventory().getItem(15) != null) {
+                event.getPlayer().getInventory().addItem(event.getInventory().getItem(15));
+            }
         }
     }
     // 인벤토리가 비어있는지 확인
@@ -106,10 +112,6 @@ public class TradeGUI implements Listener {
 
     }
 
-    //재료 아이템 갯수 관련
-    private void setAmount(Player player, int amount) {
-
-    }
 
 
 }
