@@ -67,7 +67,7 @@ public class TradeGUI implements Listener {
                         player.sendMessage("§c[!] 인벤토리를 2칸 이상 비워주세요");
                         break;
                     }
-
+                    if (event.getClickedInventory().getItem(11) == null) { return; }
                     if (event.getClickedInventory().getItem(11).getType().equals(item.getType())) {
                         if (event.getClickedInventory().getItem(11).getAmount() >= item.getAmount()) {
                             ItemStack item2 = event.getClickedInventory().getItem(11);
@@ -107,13 +107,8 @@ public class TradeGUI implements Listener {
                 stack++;
             }
         }
-
         return stack > (player.getInventory().getStorageContents().length - 2);
-
     }
-
-
-
 }
 
 

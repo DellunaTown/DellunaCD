@@ -1,5 +1,6 @@
 package dellunacd.me.tori.dellunacd.Me.tori;
 
+import gui.CDList;
 import gui.CdGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Objects;
 
 
 public class Command implements CommandExecutor {
@@ -20,6 +22,11 @@ public class Command implements CommandExecutor {
         Player player = (Player) sender;
         if (sender == null) return true;
 
+        if ( args[0]==null || args.length== 0) {
+            sender.sendMessage("§c[!] 잘못된 입력입니다.");
+            return false;
+        }
+
         switch (args[0]) {
             case "gui": // /dellunacd gui 일반 유저와 오피 둘 다 사용가능한 명령어. 현재 본인의 음반리스트GUI 보이기.
             case "열기":
@@ -27,12 +34,11 @@ public class Command implements CommandExecutor {
                     sender.sendMessage("§c[!] 잘못된 입력입니다.");
                     return false;
                 }
-                if (new File(plugin.getDataFolder() + "\\" + player.getUniqueId().toString() ).listFiles() == null ) {
+                if (new File(plugin.getDataFolder() + "\\" + player.getUniqueId().toString()).listFiles() == null) {
                     sender.sendMessage("§c[!] 제작한 음반이 없습니다. 음반을 만들어보세요! ");
                     return false;
                 }
                 player.openInventory(new CdGUI().getInventory(player, 1));
-                //제작한 음반이 없으면 빈 화면 또는 " 제작한 음반이 없습니다 "메세지 출력
                 break;
 
             case "set": // /dellunacd set <name> 유저파일에 음반추가 , 오른손에 음반을 들고 명령어 실행.
@@ -52,14 +58,23 @@ public class Command implements CommandExecutor {
             case "open": // /dellunacd open <name> , 오피전용 유저 음반 리스트 보기
                 if (!sender.isOp() || args.length != 2) {
                     sender.sendMessage("§c[!] 잘못된 입력입니다.");
+                }
+
+                if (!DataBase.exists(Bukkit.getOfflinePlayer(args[1]).getUniqueId().toString())) {
+                    sender.sendMessage("§c[!] 해당 플레이어가 제작한 음반이 없습니다");
+                    return false;
+                } else {
+                    player.openInventory(new CdGUI().getInventory(Bukkit.getOfflinePlayer(args[1]), 1));
+                    break;
+                }
+                
+            case "list": // /dellunacd list , 오피전용 전체 음반리스트 보기
+                if (!sender.isOp()) {
+                    sender.sendMessage("§c[!] 잘못된 입력입니다.");
                     return false;
                 }
-                if (new File(plugin.getDataFolder() + "\\" + player.getUniqueId().toString() ).listFiles() == null ) {
-                    sender.sendMessage("§c[!] 해당 플레이어가 제작한 음반이 없습니다.");
-                    return false;
-                }
-                if (sender.isOp()) {
-                    player.openInventory(new CdGUI().getInventory(Bukkit.getOfflinePlayer(args[1]) , 1));
+                else {
+                    player.openInventory(new CDList().getInventory(player , 1)) ; //전체 음반리스트가 뜨게 하기
                     break;
                 }
         }
@@ -84,6 +99,7 @@ public class Command implements CommandExecutor {
 
         DataBase.createCD(item, uuid, name);
         sender.sendMessage("§a[!] cd가 추가되었습니다.");
+
 
         return;
     }

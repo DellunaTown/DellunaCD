@@ -10,6 +10,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class DataBase {
+
+    public static boolean exists(String name) {
+        Plugin plugin = JavaPlugin.getPlugin(Main.class);
+        return new File(plugin.getDataFolder() + "\\"+ name).exists();
+    }
+
+
     public static void createCD(ItemStack item, String player, String name) {
         FileConfiguration config = getConfig(player, name);
 
@@ -37,15 +44,13 @@ public class DataBase {
     }
 
 
-
-
-
     private static File getFile(String uuid, String name) {
         Plugin plugin = JavaPlugin.getPlugin(Main.class);
         return new File(plugin.getDataFolder() + "\\" + uuid, name + ".dat");
     }
     private static FileConfiguration getConfig(String uuid, String name) {
         return YamlConfiguration.loadConfiguration(getFile(uuid, name));
+
     }
     private static void saveDataFile(FileConfiguration config, File file) {
         try {
@@ -56,3 +61,5 @@ public class DataBase {
     }
 
 }
+
+

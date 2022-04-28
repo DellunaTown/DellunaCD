@@ -18,18 +18,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-public class CdGUI implements Listener {
-
+public class CDList implements Listener {
 
     public Inventory getInventory(OfflinePlayer player, Integer page) {
-        Inventory inv = Bukkit.getServer().createInventory(null, 27, "§f\uF808ꢴ");
+        Inventory inv = Bukkit.getServer().createInventory(null, 54, "전체 음반리스트");
         Plugin plugin = JavaPlugin.getPlugin(Main.class);
 
-
         File[] list = new File(plugin.getDataFolder() + "\\" + player.getUniqueId().toString()).listFiles();
-        System.out.println(list);
         int count = 0;
-        int index = 2;
+        int index = 0;
 
         for (File file : list) {
             if (count < (page - 1) * 10 || count > page * 10 - 1) {
@@ -40,42 +37,31 @@ public class CdGUI implements Listener {
             inv.setItem(index, (ItemStack) config.get("item"));
             count++;
             index++;
-            if (index == 7) {
-                index = 11;
-            }
         }
 
         if (page == 1) {
-            inv.setItem(21, previous_null());
+            inv.setItem(48, previous_null());
         } else {
-            inv.setItem(21, previous());
+            inv.setItem(48, previous());
         }
 
 
-        inv.setItem(22, exit());
+        inv.setItem(49, exit());
 
 
         if (DataBase.getCDCount(player.getUniqueId().toString()) > 10 * page) {
-            inv.setItem(23, next());
+            inv.setItem(50, next());
         } else {
-            inv.setItem(23, next_null());
+            inv.setItem(50, next_null());
         }
 
-        inv.setItem(26, pageicon(page));
+        inv.setItem(53, pageicon(page));
 
-        inv.setItem(0, nullicon());
-        inv.setItem(1, nullicon());
-        inv.setItem(7, nullicon());
-        inv.setItem(8, nullicon());
-        inv.setItem(9, nullicon());
-        inv.setItem(10, nullicon());
-        inv.setItem(16, nullicon());
-        inv.setItem(17, nullicon());
-        inv.setItem(18, nullicon());
-        inv.setItem(19, nullicon());
-        inv.setItem(20, nullicon());
-        inv.setItem(24, nullicon());
-        inv.setItem(25, nullicon());
+        inv.setItem(45, nullicon());
+        inv.setItem(46, nullicon());
+        inv.setItem(47, nullicon());
+        inv.setItem(51, nullicon());
+        inv.setItem(52, nullicon());
 
         return inv;
     }
@@ -103,14 +89,14 @@ public class CdGUI implements Listener {
     private ItemStack pageicon(Integer page) {
         return Icon.set(Material.BONE, page.toString(), 1023);
     }
-
     private ItemStack nullicon() {
         return Icon.set(Material.BONE, " ", 1023);
     }
 
+
     @EventHandler
     private void onClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().contains("§f\uF808ꢴ")) {
+        if (event.getView().getTitle().contains("전체 음반리스트")) {
             if (event.getClickedInventory() == null || event.getClickedInventory().equals(event.getView().getBottomInventory())) {
                 return;
             }
@@ -121,23 +107,23 @@ public class CdGUI implements Listener {
 
 
             switch (event.getSlot()) {
-                case 21:
+                case 48:
                     if (event.getCurrentItem().getItemMeta().getCustomModelData() == 1034) {
                         player.openInventory((Inventory) new CdGUI().getInventory(player, --page));
                     }
                     break;
 
-                case 22:
+                case 49:
                     player.closeInventory();
                     break;
 
-                case 23:
+                case 50:
                     if (event.getCurrentItem().getItemMeta().getCustomModelData() == 1032) {
                         player.openInventory((Inventory) new CdGUI().getInventory(player, ++page));
                     }
                     break;
             }
-            if (event.getCurrentItem() == null ){ return;}
+
             if (event.getCurrentItem().getType().equals(Material.MUSIC_DISC_CAT)) {
                 player.openInventory(new TradeGUI().getInventory(player, event.getCurrentItem()));
             }
